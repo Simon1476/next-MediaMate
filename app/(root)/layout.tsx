@@ -6,9 +6,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="bg-gray-800">
       <Navbar />
-      {children}
+      <div className="mt-[74px] py-8 px-6 container mx-auto">{children}</div>
     </div>
   );
 }
