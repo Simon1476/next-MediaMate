@@ -1,7 +1,7 @@
-import MovieList from "@/components/movie/MovieList";
-import { getMovies } from "@/lib/tmdb";
+import TvShowList from "@/components/tv/TvShowList";
+import { getTvShows } from "@/lib/tmdb";
 
-const MoviePage = async ({
+const TvPage = async ({
   params,
   searchParams,
 }: {
@@ -13,14 +13,14 @@ const MoviePage = async ({
 
   const currentPage = Number(searchParams?.page) || 1;
 
-  const movieLists = await getMovies(slug, currentPage);
+  const tvShowLists = await getTvShows(slug, currentPage);
   return (
-    <MovieList
-      movieLists={movieLists.results}
-      totalPage={movieLists.total_pages}
+    <TvShowList
+      tvShowLists={tvShowLists.results}
+      totalPage={tvShowLists.total_pages}
       currentPage={currentPage}
     />
   );
 };
 
-export default MoviePage;
+export default TvPage;

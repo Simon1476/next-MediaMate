@@ -1,21 +1,21 @@
-import { TMDBMovie } from "@/types/tmdb";
-import MovieCard from "./MovieCard";
+import { TMDBTVShow } from "@/types/tmdb";
 import Pagination from "../pagination/Pagination";
+import TvShowCard from "./TvShowCard";
 
-const MovieList = ({
-  movieLists,
+const TvShowList = ({
+  tvShowLists,
   totalPage,
   currentPage,
 }: {
-  movieLists: TMDBMovie[];
+  tvShowLists: TMDBTVShow[];
   totalPage: number;
   currentPage: number;
 }) => {
   return (
     <>
       <div className="flex flex-wrap gap-8 justify-center lg:justify-between">
-        {movieLists.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+        {tvShowLists.map((tvShow) => (
+          <TvShowCard key={tvShow.id} tvShow={tvShow} />
         ))}
       </div>
       <Pagination totalPage={totalPage} currentPage={currentPage} />
@@ -23,4 +23,4 @@ const MovieList = ({
   );
 };
 
-export default MovieList;
+export default TvShowList;
