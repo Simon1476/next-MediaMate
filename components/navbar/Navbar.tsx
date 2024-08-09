@@ -81,7 +81,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           <button className="text-white bg-gray-700 p-2 rounded-full hover:bg-gray-600">
             <Image
-              src="/icons/home.svg"
+              src="/icons/search.svg"
               alt="Search Icon"
               width={24}
               height={24}

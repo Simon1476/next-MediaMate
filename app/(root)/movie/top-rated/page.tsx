@@ -1,19 +1,14 @@
 import MovieList from "@/components/movie/MovieList";
 import { getMovies } from "@/lib/tmdb";
 
-const MoviePage = async ({
-  params,
+const MovieTopRated = async ({
   searchParams,
 }: {
-  params: { slug?: string[] };
   searchParams?: { [key: string]: string };
 }) => {
-  const slug =
-    params.slug && params.slug.length > 0 ? params.slug[0] : "popular";
-
   const currentPage = Number(searchParams?.page) || 1;
 
-  const movieLists = await getMovies(slug, currentPage);
+  const movieLists = await getMovies("top_rated", currentPage);
   return (
     <MovieList
       movieLists={movieLists.results}
@@ -23,4 +18,4 @@ const MoviePage = async ({
   );
 };
 
-export default MoviePage;
+export default MovieTopRated;

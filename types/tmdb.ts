@@ -24,6 +24,45 @@ export type TMDBMovieResponse = {
   total_results: number;
 };
 
+export type MovieDetail = {
+  id: number;
+  adult: boolean;
+  original_title: string;
+  title: string;
+  release_date: string;
+  overview: string;
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  runtime: number;
+  vote_average: number;
+  vote_count: number;
+  poster_path: string;
+  backdrop_path: string;
+};
+
+export type CastMember = {
+  id: string;
+  adult: boolean;
+  gender: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  order: number;
+};
+
+export type MovieCredits = {
+  id: string;
+  cast: CastMember[];
+};
+
+// Tv Show
 export type TMDBTVShow = {
   adult: boolean;
   backdrop_path: string | null;

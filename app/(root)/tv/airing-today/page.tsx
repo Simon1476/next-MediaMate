@@ -1,19 +1,14 @@
 import TvShowList from "@/components/tv/TvShowList";
 import { getTvShows } from "@/lib/tmdb";
 
-const TvPage = async ({
-  params,
+const MovieNowPlaying = async ({
   searchParams,
 }: {
-  params: { slug?: string[] };
   searchParams?: { [key: string]: string };
 }) => {
-  const slug =
-    params.slug && params.slug.length > 0 ? params.slug[0] : "popular";
-
   const currentPage = Number(searchParams?.page) || 1;
 
-  const tvShowLists = await getTvShows(slug, currentPage);
+  const tvShowLists = await getTvShows("airing_today", currentPage);
   return (
     <TvShowList
       tvShowLists={tvShowLists.results}
@@ -23,4 +18,4 @@ const TvPage = async ({
   );
 };
 
-export default TvPage;
+export default MovieNowPlaying;
