@@ -8,7 +8,7 @@ const MovieNowPlaying = async ({
 }) => {
   const currentPage = Number(searchParams?.page) || 1;
 
-  const movieLists = await getMovies("airing_today", currentPage);
+  const movieLists = await getMovies("now_playing", currentPage);
   return (
     <MovieList
       movieLists={movieLists.results}

@@ -86,3 +86,66 @@ export type TMDBTVShowResponse = {
   total_pages: number;
   total_results: number;
 };
+
+export type Creator = {
+  id: number;
+  credit_id: string;
+  name: string;
+  original_name: string;
+  gender: number;
+  profile_path: string;
+};
+
+export type TVShowDetail = {
+  id: string;
+  adult: boolean;
+  backdrop_path: string;
+  created_by: Creator[] | [];
+  episode_run_time: [number];
+  first_air_date: string;
+  genres: { id: string; name: string }[];
+  original_name: string;
+  name?: string;
+  overview: string;
+  poster_path: string;
+  vote_average: number;
+  vote_count: number;
+};
+
+export type KnownForMedia = {
+  backdrop_path: string;
+  id: number;
+  title: string;
+  original_title: string;
+  overview: string;
+  poster_path: string;
+  media_type: string;
+  adult: boolean;
+  original_language: string;
+  genre_ids: number[];
+  popularity: number;
+  release_date: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+};
+
+// 배우 타입
+export type PopularPerson = {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  known_for: KnownForMedia[];
+};
+
+export type PopularPeople = {
+  page: number;
+  results: PopularPerson[];
+  total_pages: number;
+  total_results: number;
+};

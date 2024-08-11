@@ -1,33 +1,31 @@
-import { getMovieCredits, getMovieDetail } from "@/lib/tmdb";
+import { getTvshowDetail } from "@/lib/tmdb";
 import { formatRuntime } from "@/lib/utils";
-import { CastMember } from "@/types/tmdb";
 import Image from "next/image";
 
-const MovieDetail = async ({ params }: { params: { id: string } }) => {
+const TvShowDetail = async ({ params }: { params: { id: string } }) => {
   const id = Number(params.id);
 
-  const movieDetail = await getMovieDetail(id);
-  const genres = movieDetail.genres.map((genre) => genre);
-
-  const movieCredits = await getMovieCredits(id);
-
-  const movieActionPlayers: CastMember[] = movieCredits.cast.filter(
-    (cast) => cast.known_for_department === "Acting"
-  );
+  const tvShowDetail = await getTvshowDetail(id);
+  const genres = tvShowDetail.genres.map((genre) => genre);
 
   return (
-    <div className="">
-      <div className="flex gap-16">
+    <div
+      className={`bg-cover bg-no-repeat bg-[url('https://image.tmdb.org/t/p/w1280${tvShowDetail.backdrop_path}')]'`}
+    >
+      <div className={`flex gap-16`}>
         <Image
-          src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${movieDetail.poster_path}`}
-          alt={movieDetail.title}
+          src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${tvShowDetail.poster_path}`}
+          alt={`${
+            tvShowDetail.name ? tvShowDetail.name : tvShowDetail.original_name
+          }`}
           width={300}
           height={450}
         />
-        {/* 영화 상세 정보 */}
+        {/* 상세 정보 */}
         <div className="flex flex-col gap-4">
-          {/* 제목 */}
-          <h2 className="text-32 text-white font-bold">{movieDetail.title}</h2>
+          {/* 제목*/}
+          <h2 className="text-32 text-white font-bold">{tvShowDetail.name}</h2>
+
           <p className="flex items-center text-white gap-2">
             <Image
               src="/icons/gold-star.svg"
@@ -37,14 +35,19 @@ const MovieDetail = async ({ params }: { params: { id: string } }) => {
             />
             {/* 평점 */}
             <span className="text-20 font-semibold">
-              {movieDetail.vote_average}
+              {tvShowDetail.vote_average}
             </span>
-            <span className="text-20">({movieDetail.vote_count})</span>
-            <span>•</span>
-            <span>{formatRuntime(movieDetail.runtime)}</span>
+            <span className="text-20">({tvShowDetail.vote_count})</span>
+
+            {tvShowDetail.episode_run_time.length > 0 && (
+              <>
+                <span>•</span>
+                <span>{formatRuntime(tvShowDetail.episode_run_time[0])}</span>
+              </>
+            )}
           </p>
 
-          <p className="text-white">{movieDetail.overview}</p>
+          <p className="text-white">{tvShowDetail.overview}</p>
 
           <div className="flex gap-2">
             {/* 장르 */}
@@ -58,8 +61,8 @@ const MovieDetail = async ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       {/* 출연자 목록*/}
-      <div>
-        <h3 className="text-20 text-white my-4">액션 배우</h3>
+      {/* <div>
+        <h3 className="text-20 text-white ">액션 배우</h3>
         <ol className="overflow-x-scroll flex gap-3">
           {movieActionPlayers.map((player) => (
             <li
@@ -82,9 +85,9 @@ const MovieDetail = async ({ params }: { params: { id: string } }) => {
             </li>
           ))}
         </ol>
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export default MovieDetail;
+export default TvShowDetail;

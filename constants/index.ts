@@ -22,7 +22,7 @@ export const navbarLinks = [
   {
     imgUrl: "/icons/person.svg",
     label: "유명인",
-    submenu: [{ label: "인기인물", route: "/movie" }],
+    submenu: [{ label: "인기인물", route: "/person" }],
   },
 ];
 
