@@ -109,3 +109,21 @@ export async function getPopularPeople(page: number): Promise<PopularPeople> {
     throw new Error("Error fetching Popular people");
   }
 }
+
+export async function getPersonDetail(id: number): Promise<PersonDetail> {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/person/${id}?language=en-US`,
+      options
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch Person Detail");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching  Person Detail", error);
+    throw new Error("Error fetching  Person Detail");
+  }
+}
