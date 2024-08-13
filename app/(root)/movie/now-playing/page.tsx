@@ -8,7 +8,9 @@ const MovieNowPlaying = async ({
 }) => {
   const currentPage = Number(searchParams?.page) || 1;
 
-  const movieLists = await getMovies("now_playing", currentPage);
+  const movieLists = await getMovies(
+    `https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=${currentPage}`
+  );
   return (
     <MovieList
       movieLists={movieLists.results}

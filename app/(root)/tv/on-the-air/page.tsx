@@ -8,7 +8,9 @@ const MovieNowPlaying = async ({
 }) => {
   const currentPage = Number(searchParams?.page) || 1;
 
-  const tvShowLists = await getTvShows("on_the_air", currentPage);
+  const tvShowLists = await getTvShows(
+    `https://api.themoviedb.org/3/tv/on_the_air?language=ko-KR&page=${currentPage}`
+  );
   return (
     <TvShowList
       tvShowLists={tvShowLists.results}

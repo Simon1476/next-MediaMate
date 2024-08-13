@@ -8,7 +8,9 @@ const MovieNowPlaying = async ({
 }) => {
   const currentPage = Number(searchParams?.page) || 1;
 
-  const tvShowLists = await getTvShows("airing_today", currentPage);
+  const tvShowLists = await getTvShows(
+    `https://api.themoviedb.org/3/tv/airing_today?language=ko-KR&page=${currentPage}`
+  );
   return (
     <TvShowList
       tvShowLists={tvShowLists.results}

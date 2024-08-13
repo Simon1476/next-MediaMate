@@ -2,21 +2,16 @@ import { options } from "@/constants";
 import {
   MovieCredits,
   MovieDetail,
+  PersonDetail,
   PopularPeople,
   TMDBMovieResponse,
   TMDBTVShowResponse,
   TVShowDetail,
 } from "@/types/tmdb";
 
-export async function getMovies(
-  endpoint: string,
-  page: number = 1
-): Promise<TMDBMovieResponse> {
+export async function getMovies(url: string): Promise<TMDBMovieResponse> {
   try {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/movie/${endpoint}?language=ko-KR&page=${page}`,
-      options
-    );
+    const res = await fetch(url, options);
 
     if (!res.ok) {
       throw new Error("Failed to fetch popular movies");
@@ -65,17 +60,10 @@ export async function getMovieCredits(id: number): Promise<MovieCredits> {
   }
 }
 
-export async function getTvShows(
-  endpoint: string,
-  page: number = 1
-): Promise<TMDBTVShowResponse> {
+export async function getTvShows(url: string): Promise<TMDBTVShowResponse> {
   try {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/tv/${endpoint}?language=ko-KR&page=${page}`,
-      options
-    );
-
-    if (!res.ok) {
+    const res = await fetch(url, options);
+    https: if (!res.ok) {
       throw new Error("Failed to fetch popular TvShows");
     }
 
