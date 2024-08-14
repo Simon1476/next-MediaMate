@@ -127,3 +127,23 @@ export async function getPersonDetail(id: number): Promise<PersonDetail> {
     throw new Error("Error fetching  Person Detail");
   }
 }
+
+export async function getSearchAll(query: string, page: number = 1) {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(
+        query
+      )}&include_adult=true&language=ko-KR&page=${page}`,
+      options
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch movies, TV shows and people");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching  movies, TV shows and people", error);
+    throw new Error("Error fetching  movies, TV shows and people");
+  }
+}

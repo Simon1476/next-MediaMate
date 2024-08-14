@@ -166,3 +166,15 @@ export type PersonDetail = {
   popularity: number;
   profile_path: string | null;
 };
+
+export type MovieSearchResult = TMDBMovie & {
+  media_type: string;
+};
+
+export type TVSearchResult = TMDBTVShow & {
+  media_type: string;
+};
+
+export type PersonSearchResult = PopularPerson & {
+  media_type: string;
+};

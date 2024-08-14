@@ -9,6 +9,9 @@
 }
 
 @layer utilities {
+  .grid-cols-responsive {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
   .text-12 {
     @apply text-[12px] leading-normal;
   }
