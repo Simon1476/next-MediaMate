@@ -1,9 +1,10 @@
+import LikeButton from "@/components/buttons/LikeButton";
 import { getMovieCredits, getMovieDetail } from "@/lib/tmdb";
 import { formatRuntime } from "@/lib/utils";
 import { CastMember } from "@/types/tmdb";
 import Image from "next/image";
 
-const MovieDetail = async ({ params }: { params: { id: string } }) => {
+const MovieDetailPage = async ({ params }: { params: { id: string } }) => {
   const id = Number(params.id);
 
   const movieDetail = await getMovieDetail(id);
@@ -19,10 +20,10 @@ const MovieDetail = async ({ params }: { params: { id: string } }) => {
     <div className="">
       <div className="flex gap-16">
         <Image
-          src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2${movieDetail.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w300${movieDetail.poster_path}`}
           alt={movieDetail.title}
           width={300}
-          height={450}
+          height={428}
         />
         {/* 영화 상세 정보 */}
         <div className="flex flex-col gap-4">
@@ -37,9 +38,13 @@ const MovieDetail = async ({ params }: { params: { id: string } }) => {
             />
             {/* 평점 */}
             <span className="text-20 font-semibold">
-              {movieDetail.vote_average}
+              {movieDetail.vote_average === 0
+                ? "No vote"
+                : movieDetail.vote_average}
             </span>
-            <span className="text-20">({movieDetail.vote_count})</span>
+            {movieDetail.vote_count > 0 && (
+              <span className="text-20">({movieDetail.vote_count})</span>
+            )}
             <span>•</span>
             <span>{formatRuntime(movieDetail.runtime)}</span>
           </p>
@@ -55,36 +60,44 @@ const MovieDetail = async ({ params }: { params: { id: string } }) => {
               </span>
             ))}
           </div>
+          {/* 좋아요, 시청 목록, 평가 버튼 */}
+          <div className="flex">
+            <LikeButton mediaType="movie" mediaId={movieDetail.id} />
+          </div>
         </div>
       </div>
       {/* 출연자 목록*/}
       <div>
         <h3 className="text-20 text-white my-4">액션 배우</h3>
         <ol className="overflow-x-scroll flex gap-3">
-          {movieActionPlayers.map((player) => (
-            <li
-              className="pb-2 min-w-36 bg-transparent rounded-md overflow-hidden"
-              key={player.id}
-            >
-              <div>
-                <Image
-                  src={`https://media.themoviedb.org/t/p/w138_and_h175_face${player.profile_path}`}
-                  alt={player.name}
-                  width={141}
-                  height={175}
-                  className="w-full"
-                />
-              </div>
-              <div className="p-3">
-                <p className="text-white">{player.name}</p>
-                <p className="text-white">{player.original_name}</p>
-              </div>
-            </li>
-          ))}
+          {movieActionPlayers.map((player) => {
+            const profilePath = player.profile_path
+              ? `https://image.tmdb.org/t/p/w138_and_h175_face${player.profile_path}`
+              : "/image/noAvatar.png";
+
+            return (
+              <li
+                className="pb-2 min-w-36 bg-transparent rounded-md overflow-hidden"
+                key={player.id}
+              >
+                <div className="h-[175px]">
+                  <Image
+                    src={profilePath}
+                    alt={player.name}
+                    width={138}
+                    height={175}
+                  />
+                </div>
+                <div className="p-3">
+                  <p className="text-white">{player.name}</p>
+                </div>
+              </li>
+            );
+          })}
         </ol>
       </div>
     </div>
   );
 };
 
-export default MovieDetail;
+export default MovieDetailPage;
