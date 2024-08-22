@@ -66,8 +66,8 @@ const Pagination = ({
         {pageRange.map((pageNum) => (
           <Link key={pageNum} href={`${pathname}?page=${pageNum}`}>
             <button
-              className={`px-4 py-2 rounded hover:bg-gray-200 mx-1 ${
-                currentPage === pageNum ? "bg-gray-200" : ""
+              className={`px-4 py-2 rounded text-gray-200 hover:bg-red-500 mx-1 ${
+                currentPage === pageNum ? "bg-red-600" : ""
               }`}
               disabled={currentPage === pageNum}
             >
@@ -94,7 +94,7 @@ const Pagination = ({
           </button>
         </Link>
       </div>
-      <div className="text-center mt-4">
+      <div className="text-center mt-4 text-gray-200">
         {currentPage} / {totalPage}
       </div>
     </>
