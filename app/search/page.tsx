@@ -12,9 +12,10 @@ const SearchPage = async ({
 
   const data = await getSearchAll(query);
 
-  const movies: MovieSearchResult[] = data.results.filter(
-    (item: any) => item.media_type === "movie"
-  );
+  const movies: MovieSearchResult[] = data.results
+    .filter((item: any) => item.media_type === "movie")
+    .filter((item: any) => item.poster_path !== null);
+
   const tvShows: TVSearchResult[] = data.results.filter(
     (item: any) => item.media_type === "tv"
   );
@@ -24,30 +25,33 @@ const SearchPage = async ({
 
   return (
     <div>
-      <h1 className="text-white font-bold text-32 mb-8">
+      <h1 className="text-white font-bold text-32 mb-8 max-[460px]:text-center">
         {`"${query}" 검색 결과`}{" "}
       </h1>
       <div className="flex flex-col gap-4">
-        <div>
-          <h1 className="text-white font-bold text-32 mb-4">영화</h1>
-          <div className="grid grid-cols-responsive gap-4">
-            {movies.map((movie) => (
-              <div key={movie.id}>
-                <Link href={`/movie/${movie.id}`}>
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                    alt={movie.title}
-                    width={300}
-                    height={150}
-                    className="rounded-md"
-                  />
-                </Link>
-
-                <div></div>
-              </div>
-            ))}
+        {movies.length > 0 && (
+          <div>
+            <h1 className="text-white font-bold text-32 mb-4 max-[460px]:text-center">
+              영화
+            </h1>
+            <div className="grid grid-cols-responsive gap-4 max-[460px]:place-items-center">
+              {movies.map((movie) => (
+                <div key={movie.id}>
+                  <Link href={`/movie/${movie.id}`}>
+                    <Image
+                      src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                      alt={movie.title}
+                      width={300}
+                      height={150}
+                      className="rounded-md"
+                    />
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
         {tvShows.length > 0 && (
           <div>
             <h1 className="text-white font-bold text-32 mb-4">TV</h1>
@@ -56,9 +60,9 @@ const SearchPage = async ({
                 <div key={tvShow.id}>
                   <Link href={`/tv/${tvShow.id}`}>
                     <Image
-                      src={`https://image.tmdb.org/t/p/w300${tvShow.poster_path}`}
+                      src={`https://image.tmdb.org/t/p/w220_and_h330_face${tvShow.poster_path}`}
                       alt={tvShow.name}
-                      width={300}
+                      width={220}
                       height={150}
                       className="rounded-md"
                     />
