@@ -13,7 +13,7 @@ const MovieList = ({
 }) => {
   return (
     <>
-      <div className="flex flex-wrap gap-8 justify-center lg:justify-between">
+      <div className="flex flex-wrap gap-8 justify-evenly xl:justify-between">
         {movieLists.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
