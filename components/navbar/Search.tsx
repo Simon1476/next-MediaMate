@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 const Search = () => {
@@ -45,4 +48,11 @@ const Search = () => {
   );
 };
 
-export default Search;
+export function Searchbar() {
+  return (
+    // You could have a loading skeleton as the `fallback` too
+    <Suspense>
+      <Search />
+    </Suspense>
+  );
+}

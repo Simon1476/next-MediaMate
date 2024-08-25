@@ -1,3 +1,4 @@
+import LikeButton from "@/components/buttons/LikeButton";
 import { getTvshowDetail } from "@/lib/tmdb";
 import { formatRuntime } from "@/lib/utils";
 import Image from "next/image";
@@ -57,6 +58,10 @@ const TvShowDetail = async ({ params }: { params: { id: string } }) => {
                 {genre.name}
               </span>
             ))}
+          </div>
+          {/* 좋아요, 시청 목록, 평가 버튼 */}
+          <div className="flex">
+            <LikeButton mediaType="tv" mediaId={id} />
           </div>
         </div>
       </div>

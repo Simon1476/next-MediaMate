@@ -11,16 +11,19 @@ import { useFavoriteStore } from "@/providers/favorite-store-provider";
 const Navbar = () => {
   const router = useRouter();
   const { username, signOut, accountId } = useAuth();
-  const { fetchFavoriteMovies } = useFavoriteStore((state) => state);
+  const { fetchFavoriteMovies, fetchFavoriteTVShows } = useFavoriteStore(
+    (state) => state
+  );
   useEffect(() => {
     const fetchData = async () => {
       if (accountId) {
         await fetchFavoriteMovies(accountId);
+        await fetchFavoriteTVShows(accountId);
       }
     };
 
     fetchData(); // 비동기 함수 호출
-  }, [accountId, fetchFavoriteMovies]);
+  }, [accountId, fetchFavoriteMovies, fetchFavoriteTVShows]);
   const handleLogin = async () => {
     try {
       const response = await fetch("/api/getRequestToken");
@@ -40,7 +43,7 @@ const Navbar = () => {
 
   return (
     <header className="w-full bg-black p-4 h-[74px] fixed top-0 left-0">
-      <nav className="flex items-center justify-between w-[1560px] mx-auto">
+      <nav className="flex items-center justify-between max-w-[1560px] mx-auto">
         <ul className="flex space-x-4 text-16">
           <li className="flex justify-center items-center gap-4">
             <Link href="/" className="text-red-600 font-extrabold text-xl">

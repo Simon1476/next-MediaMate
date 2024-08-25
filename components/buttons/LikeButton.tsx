@@ -7,19 +7,30 @@ import { useEffect, useState } from "react";
 
 type props = {
   mediaId: number;
-  mediaType: string;
+  mediaType: "movie" | "tv";
 };
 const LikeButton = ({ mediaId, mediaType }: props) => {
   const { accountId } = useAuth();
-  const { favoriteMovies, toggleFavorite } = useFavoriteStore((state) => state);
+  const {
+    favoriteMovies,
+    favoriteTVShows,
+    toggleFavoriteMovie,
+    toggleFavoriteTVShow,
+  } = useFavoriteStore((state) => state);
 
   const [favorite, setFavorite] = useState(() =>
-    favoriteMovies.some((movie) => movie.id === mediaId)
+    mediaType === "movie"
+      ? favoriteMovies.some((movie) => movie.id === mediaId)
+      : favoriteTVShows.some((TVShow) => TVShow.id === mediaId)
   );
 
   useEffect(() => {
-    setFavorite(favoriteMovies.some((movie) => movie.id === mediaId));
-  }, [favoriteMovies, mediaId]);
+    if (mediaType === "movie") {
+      setFavorite(favoriteMovies.some((movie) => movie.id === mediaId));
+    } else if (mediaType === "tv") {
+      setFavorite(favoriteTVShows.some((show) => show.id === mediaId));
+    }
+  }, [favoriteMovies, mediaId, mediaType, favoriteTVShows]);
 
   const handleFavorite = async () => {
     try {
@@ -34,7 +45,11 @@ const LikeButton = ({ mediaId, mediaType }: props) => {
         }),
       });
 
-      toggleFavorite(mediaId);
+      if (mediaType === "movie") {
+        toggleFavoriteMovie(mediaId);
+      } else if (mediaType === "tv") {
+        toggleFavoriteTVShow(mediaId);
+      }
       if (!response.ok) {
         console.error("Failed to update favorite:", response.statusText);
       }
