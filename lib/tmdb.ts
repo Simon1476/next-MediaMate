@@ -1,3 +1,5 @@
+"use server";
+
 import { options } from "@/constants";
 import {
   MovieCredits,
@@ -8,6 +10,7 @@ import {
   TMDBTVShowResponse,
   TVShowDetail,
 } from "@/types/tmdb";
+import { cookies } from "next/headers";
 
 export async function getMovies(url: string): Promise<TMDBMovieResponse> {
   try {
@@ -145,5 +148,34 @@ export async function getSearchAll(query: string, page: number = 1) {
   } catch (error) {
     console.error("Error fetching  movies, TV shows and people", error);
     throw new Error("Error fetching  movies, TV shows and people");
+  }
+}
+
+export async function rateMovie(movieId: number, rate: number) {
+  const cookieStore = cookies();
+  const sessionId = cookieStore.get("session_id")?.value;
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-Type": "application/json",
+      Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
+    },
+    body: JSON.stringify({ value: rate }),
+  };
+
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}/rating?session_id=${sessionId}`,
+      options
+    );
+    if (!res.ok) {
+      throw new Error("Failed to Rate Movie");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error Rate movie", error);
+    throw new Error("Error Rate movie");
   }
 }

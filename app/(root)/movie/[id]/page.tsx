@@ -1,4 +1,5 @@
 import LikeButton from "@/components/buttons/LikeButton";
+import RateButton from "@/components/buttons/RateButton";
 import { getMovieCredits, getMovieDetail } from "@/lib/tmdb";
 import { formatRuntime } from "@/lib/utils";
 import { CastMember } from "@/types/tmdb";
@@ -24,6 +25,7 @@ const MovieDetailPage = async ({ params }: { params: { id: string } }) => {
           alt={movieDetail.title}
           width={300}
           height={428}
+          className="rounded-lg"
         />
         {/* 영화 상세 정보 */}
         <div className="flex flex-col gap-4">
@@ -63,6 +65,7 @@ const MovieDetailPage = async ({ params }: { params: { id: string } }) => {
           {/* 좋아요, 시청 목록, 평가 버튼 */}
           <div className="flex">
             <LikeButton mediaType="movie" mediaId={movieDetail.id} />
+            <RateButton movieId={movieDetail.id} />
           </div>
         </div>
       </div>
