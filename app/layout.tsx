@@ -22,9 +22,9 @@ export default function RootLayout({
       <AuthProvider>
         <FavoriteStoreProvider>
           <body className={inter.className}>
-            {" "}
             <Navbar />
             {children}
+            <div id="global-modal"></div>
           </body>
         </FavoriteStoreProvider>
       </AuthProvider>
