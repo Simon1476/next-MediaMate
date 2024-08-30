@@ -1,18 +1,19 @@
 "use client";
 
+import { useModal } from "@/hooks/useModal";
 import Star from "/icons/star.svg";
-import { rateMovie } from "@/lib/tmdb";
+import StarRating from "../starRating/StarRating";
 
 const RateButton = ({ movieId }: { movieId: number }) => {
-  const handleRate = async () => {
-    await rateMovie(movieId, 9.0);
-  };
-
+  const { Modal, openModal, isOpen, closeModal } = useModal();
   return (
     <>
-      <button onClick={handleRate}>
+      <button onClick={() => openModal()}>
         <Star className="w-[30px] h-[30px]" />
       </button>
+      <Modal open={isOpen} onClose={closeModal}>
+        <StarRating movieId={movieId} onClose={closeModal} />
+      </Modal>
     </>
   );
 };
