@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <FavoriteStoreProvider>
-          <body className={inter.className}>
+          <body className={`${inter.className} relative`}>
             <Navbar />
             {children}
             <div id="global-modal"></div>
