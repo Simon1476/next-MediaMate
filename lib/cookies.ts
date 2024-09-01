@@ -13,3 +13,8 @@ export const deleteSessionId = () => {
 
   cookieStore.delete("session_id");
 };
+
+export const deleteAccountId = () => {
+  const cookieStore = cookies();
+  cookieStore.delete("account_id");
+};

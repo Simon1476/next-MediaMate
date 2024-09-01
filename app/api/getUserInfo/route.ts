@@ -18,7 +18,16 @@ export async function GET(request: Request) {
     );
     if (!response.ok) throw new Error("Failed to fetch request token");
     const data = await response.json();
-    return NextResponse.json(data);
+
+    const res = NextResponse.json(data);
+    res.cookies.set("account_id", data.id, {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+    });
+
+    return res;
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
