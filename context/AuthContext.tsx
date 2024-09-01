@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSessionId } from "@/lib/cookies";
+import { deleteAccountId, deleteSessionId } from "@/lib/cookies";
 import { AuthContextType } from "@/types";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -60,6 +60,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUserName(null);
     setAccountId(null);
     deleteSessionId();
+    deleteAccountId();
     localStorage.removeItem(USERNAME_KEY);
     localStorage.removeItem(ACCOUNT_ID_KEY);
   };

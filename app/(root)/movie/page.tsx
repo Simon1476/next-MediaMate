@@ -12,11 +12,16 @@ const MoviePage = async ({
     `https://api.themoviedb.org/3/discover/movie?include_adult=true&include_video=false&language=ko-KR&page=${currentPage}&region=KR&sort_by=popularity.desc`
   );
   return (
-    <MovieList
-      movieLists={movieLists.results}
-      totalPage={movieLists.total_pages}
-      currentPage={currentPage}
-    />
+    <>
+      <h2 className="mb-4 font-extrabold text-center text-white text-24 md:text-left">
+        인기
+      </h2>
+      <MovieList
+        movieLists={movieLists.results}
+        totalPage={movieLists.total_pages}
+        currentPage={currentPage}
+      />
+    </>
   );
 };
 

@@ -12,11 +12,16 @@ const MovieNowPlaying = async ({
     `https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=${currentPage}`
   );
   return (
-    <MovieList
-      movieLists={movieLists.results}
-      totalPage={movieLists.total_pages}
-      currentPage={currentPage}
-    />
+    <>
+      <h2 className="mb-4 font-extrabold text-center text-white text-24 md:text-left">
+        현재 상영중
+      </h2>
+      <MovieList
+        movieLists={movieLists.results}
+        totalPage={movieLists.total_pages}
+        currentPage={currentPage}
+      />
+    </>
   );
 };
 

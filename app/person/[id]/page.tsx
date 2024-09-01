@@ -18,28 +18,28 @@ const PersonDetail = async ({ params }: { params: { id: string } }) => {
             className="rounded-md"
           />
         </div>
-        <div className="space-y-8">
+        <div className="space-y-4 text-white md:space-y-8">
           <h2 className="text-32">{personDetail.name}</h2>
           <div className="space-y-4">
             <p className="flex flex-col">
-              <span className="text-20 font-semibold">출생지</span>
+              <span className="font-semibold text-20">출생지</span>
               <span>{personDetail.place_of_birth}</span>
             </p>
             <p className="flex flex-col">
-              <span className="text-20 font-semibold">생일</span>
+              <span className="font-semibold text-20">생일</span>
               <span>{personDetail.birthday}</span>
             </p>
             <p className="flex flex-col">
-              <span className="text-20 font-semibold">전문 분야</span>
+              <span className="font-semibold text-20">전문 분야</span>
               <span>{personDetail.known_for_department}</span>
             </p>
           </div>
         </div>
       </div>
       <div>
-        <h3 className="text-24">약력</h3>
+        <h3 className="text-white text-24">약력</h3>
         {personDetail.biography.split(/\n\s*\n/).map((paragraph, index) => (
-          <p key={index} className="mb-4">
+          <p key={index} className="mb-4 text-white">
             {paragraph}
           </p>
         ))}

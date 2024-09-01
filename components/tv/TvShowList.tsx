@@ -13,7 +13,7 @@ const TvShowList = ({
 }) => {
   return (
     <>
-      <div className="flex flex-wrap gap-8 justify-center lg:justify-between">
+      <div className="grid gap-4 grid-movie-responsive">
         {tvShowLists.map((tvShow) => (
           <TvShowCard key={tvShow.id} tvShow={tvShow} />
         ))}

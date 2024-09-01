@@ -13,7 +13,9 @@ const MovieTopRated = async ({
   );
   return (
     <>
-      <h2 className="text-white text-24 mb-4 font-extrabold">높은 평점</h2>
+      <h2 className="mb-4 font-extrabold text-center text-white text-24 md:text-left">
+        높은 평점
+      </h2>
       <MovieList
         movieLists={movieLists.results}
         totalPage={movieLists.total_pages}

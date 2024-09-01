@@ -12,6 +12,10 @@
   .grid-cols-responsive {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
+
+  .grid-movie-responsive {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
   .text-12 {
     @apply text-[12px] leading-normal;
   }
@@ -50,4 +54,10 @@
   /* flex: 0 0 100%; */
   flex: 0 0 20%; /* Slide covers 200px of the viewport */
   min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .embla__slide {
+    flex: 0 0 33%;
+  }
 }

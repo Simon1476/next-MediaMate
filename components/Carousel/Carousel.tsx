@@ -24,14 +24,14 @@ export default function Carousel({ mediaList }: { mediaList: TMDBMovie[] }) {
   return (
     <div className="relative mt-10 embla group">
       <div className="w-full space-x-4 embla__viewport" ref={emblaRef}>
-        <div className="px-4 embla__container">
+        <div className="embla__container">
           {mediaList.map((content) => {
             const poster = content.poster_path
               ? `https://image.tmdb.org/t/p/w300${content.poster_path}`
               : "/image/no-poster1.png"; // 'content.poster_path'가 있는지 확인하고 'poster' 경로를 설정합니다.
 
             return (
-              <div className="px-4 embla__slide" key={content.id}>
+              <div className="embla__slide" key={content.id}>
                 <Link href={`/movie/${content.id}`}>
                   <Image
                     src={poster}
@@ -48,16 +48,16 @@ export default function Carousel({ mediaList }: { mediaList: TMDBMovie[] }) {
       </div>
       <div>
         <button
-          className="absolute left-0 p-2 transition-opacity duration-300 ease-in-out -translate-y-1/2 bg-white rounded-full opacity-0 cursor-pointer top-1/2 embla__prev group-hover:opacity-100"
+          className="absolute p-2 transition-opacity duration-300 ease-in-out -translate-y-1/2 bg-white rounded-full opacity-0 cursor-pointer -left-4 top-1/2 embla__prev group-hover:opacity-100"
           onClick={scrollPrev}
         >
-          <PreviousBtn className="w-[24px] h-[24px]" />
+          <PreviousBtn className="size-[16px] md:size-[24px]" />
         </button>
         <button
-          className="absolute right-0 p-2 transition-opacity duration-300 ease-in-out -translate-y-1/2 bg-white rounded-full opacity-0 cursor-pointer top-1/2 embla__prev group-hover:opacity-100"
+          className="absolute p-2 transition-opacity duration-300 ease-in-out -translate-y-1/2 bg-white rounded-full opacity-0 cursor-pointer -right-4 top-1/2 embla__prev group-hover:opacity-100"
           onClick={scrollNext}
         >
-          <NextBtn className="w-[24px] h-[24px]" />
+          <NextBtn className="size-[16px] md:size-[24px]" />
         </button>
       </div>
     </div>

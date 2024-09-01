@@ -13,7 +13,7 @@ const PersonList = ({
 }) => {
   return (
     <>
-      <div className="flex flex-wrap gap-8 justify-center lg:justify-between">
+      <div className="grid gap-4 grid-movie-responsive">
         {peopleLists.map((person) => (
           <PersonCard key={person.id} person={person} />
         ))}
