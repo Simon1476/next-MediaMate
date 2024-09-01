@@ -103,7 +103,7 @@ export type TVShowDetail = {
   created_by: Creator[] | [];
   episode_run_time: [number];
   first_air_date: string;
-  genres: { id: string; name: string }[];
+  genres: { id: number; name: string }[];
   original_name: string;
   name?: string;
   overview: string;
