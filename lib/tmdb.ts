@@ -66,7 +66,8 @@ export async function getMovieCredits(id: number): Promise<MovieCredits> {
 export async function getTvShows(url: string): Promise<TMDBTVShowResponse> {
   try {
     const res = await fetch(url, options);
-    https: if (!res.ok) {
+
+    if (!res.ok) {
       throw new Error("Failed to fetch popular TvShows");
     }
 
