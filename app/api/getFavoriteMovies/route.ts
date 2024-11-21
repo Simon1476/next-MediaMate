@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   try {
     do {
       const response = await fetch(
-        `https://api.themoviedb.org/3/account/${accountId}/favorite/movies`,
+        `https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=ko-KR`,
         {
           method: "GET",
           headers: {
@@ -33,7 +33,6 @@ export async function GET(request: NextRequest) {
       totalPages = data.total_pages;
       page++;
 
-      // Optional: Adding a delay to avoid hitting API rate limits
       await new Promise((resolve) => setTimeout(resolve, 500));
     } while (page <= totalPages);
     return NextResponse.json(allMovies);
