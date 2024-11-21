@@ -2,15 +2,29 @@ import { TMDBMovie, TMDBTVShow } from "@/types/tmdb";
 import { createStore } from "zustand/vanilla";
 
 export type FavoriteState = {
-  favoriteMovies: { id: number; favorite: boolean }[];
-  favoriteTVShows: { id: number; favorite: boolean }[];
+  favoriteMovies: {
+    id: number;
+    title: string;
+    poster_path: string;
+    release_date: string;
+    favorite: boolean;
+    overview: string;
+  }[];
+  favoriteTVShows: {
+    id: number;
+    name: string;
+    poster_path: string | null;
+    first_air_date: string;
+    overview: string;
+    favorite: boolean;
+  }[];
 };
 
 export type FavoriteActions = {
   fetchFavoriteMovies: (accountId: string) => Promise<void>;
   fetchFavoriteTVShows: (accountId: string) => Promise<void>;
-  toggleFavoriteMovie: (movieId: number) => void;
-  toggleFavoriteTVShow: (tvShowId: number) => void;
+  toggleFavoriteMovie: (movieId: number, accountId: string) => Promise<void>;
+  toggleFavoriteTVShow: (tvShowId: number, accountId: string) => Promise<void>;
 };
 
 export type FavoriteStore = FavoriteState & FavoriteActions;
@@ -23,18 +37,20 @@ export const defaultInitState: FavoriteState = {
 export const createFavoriteStore = (
   initState: FavoriteState = defaultInitState
 ) => {
-  return createStore<FavoriteStore>()((set) => ({
+  return createStore<FavoriteStore>()((set, get) => ({
     ...initState,
 
-    // favoriteMovies 배열을 직접 받아서 상태를 업데이트
     fetchFavoriteMovies: async (accountId: string) => {
       if (!accountId) return;
       const res = await fetch(`/api/getFavoriteMovies?accountId=${accountId}`);
       const data: TMDBMovie[] = await res.json();
-
       const favoriteMovies = data.map((movie) => ({
         id: movie.id,
-        favorite: true, // API로 가져온 영화는 이미 좋아요된 상태로 간주
+        title: movie.title,
+        poster_path: movie.poster_path,
+        release_date: movie.release_date,
+        favorite: true,
+        overview: movie.overview,
       }));
 
       set((state) => ({ ...state, favoriteMovies }));
@@ -46,59 +62,107 @@ export const createFavoriteStore = (
 
       const favoriteTVShows = data.map((tvShow) => ({
         id: tvShow.id,
+        name: tvShow.name,
+        poster_path: tvShow.poster_path,
+        first_air_date: tvShow.first_air_date,
+        overview: tvShow.overview,
         favorite: true,
       }));
-
       set((state) => ({ ...state, favoriteTVShows }));
     },
 
-    // 특정 영화의 좋아요 상태를 토글
-    toggleFavoriteMovie: (movieId: number) =>
-      set((state) => {
-        const existingMovieIndex = state.favoriteMovies.findIndex(
-          (movie) => movie.id === movieId
-        );
+    toggleFavoriteMovie: async (movieId: number, accountId: string) => {
+      const state = get();
+      const existingMovieIndex = state.favoriteMovies.findIndex(
+        (movie) => movie.id === movieId
+      );
+      const isFavorite = existingMovieIndex === -1;
 
-        let updatedFavoriteMovies;
+      try {
+        const response = await fetch("/api/favorites", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            mediaId: movieId,
+            mediaType: "movie",
+            accountId,
+            favorite: isFavorite,
+          }),
+        });
 
-        if (existingMovieIndex !== -1) {
-          // 영화가 favoriteMovies에 있으면 삭제
-          updatedFavoriteMovies = state.favoriteMovies.filter(
-            (movie) => movie.id !== movieId
-          );
-        } else {
-          // 영화가 favoriteMovies에 없으면 추가
-          updatedFavoriteMovies = [
-            ...state.favoriteMovies,
-            { id: movieId, favorite: true },
-          ];
+        if (!response.ok) {
+          throw new Error("Failed to toggle favorite");
         }
 
-        return { ...state, favoriteMovies: updatedFavoriteMovies };
-      }),
+        set((state) => {
+          const updatedFavoriteMovies = isFavorite
+            ? [
+                ...state.favoriteMovies,
+                {
+                  id: movieId,
+                  title: "",
+                  poster_path: "",
+                  release_date: "",
+                  favorite: true,
+                  overview: "",
+                },
+              ]
+            : state.favoriteMovies.filter((movie) => movie.id !== movieId);
 
-    toggleFavoriteTVShow: (tvShowId: number) =>
-      set((state) => {
-        const existingTVShowIndex = state.favoriteTVShows.findIndex(
-          (tvShow) => tvShow.id === tvShowId
-        );
+          return { ...state, favoriteMovies: updatedFavoriteMovies };
+        });
+      } catch (error) {
+        console.error("Failed to toggle favorite:", error);
+      }
+    },
 
-        let updatedFavoriteTVShows;
+    toggleFavoriteTVShow: async (tvShowId: number, accountId: string) => {
+      const state = get();
+      const existingTVShowIndex = state.favoriteTVShows.findIndex(
+        (tvShow) => tvShow.id === tvShowId
+      );
+      const isFavorite = existingTVShowIndex === -1;
 
-        if (existingTVShowIndex !== -1) {
-          // 영화가 favoriteTVShows 있으면 삭제
-          updatedFavoriteTVShows = state.favoriteTVShows.filter(
-            (tvShow) => tvShow.id !== tvShowId
-          );
-        } else {
-          // 영화가 favoriteTVShows 없으면 추가
-          updatedFavoriteTVShows = [
-            ...state.favoriteTVShows,
-            { id: tvShowId, favorite: true },
-          ];
+      try {
+        const response = await fetch("/api/favorites", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            mediaId: tvShowId,
+            mediaType: "tv",
+            accountId,
+            favorite: isFavorite,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to toggle favorite");
         }
 
-        return { ...state, favoriteTVShows: updatedFavoriteTVShows };
-      }),
+        set((state) => {
+          const updatedFavoriteTVShows = isFavorite
+            ? [
+                ...state.favoriteTVShows,
+                {
+                  id: tvShowId,
+                  name: "",
+                  poster_path: "",
+                  first_air_date: "",
+                  overview: "",
+                  favorite: true,
+                },
+              ]
+            : state.favoriteTVShows.filter((tvShow) => tvShow.id !== tvShowId);
+
+          return { ...state, favoriteTVShows: updatedFavoriteTVShows };
+        });
+      } catch (error) {
+        console.error("Failed to toggle favorite:", error);
+      }
+    },
   }));
 };
