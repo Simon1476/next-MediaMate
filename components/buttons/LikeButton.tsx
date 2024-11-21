@@ -34,27 +34,14 @@ const LikeButton = ({ mediaId, mediaType }: props) => {
 
   const handleFavorite = async () => {
     try {
-      const response = await fetch("/api/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          mediaId,
-          mediaType,
-          accountId,
-          favorite: !favorite,
-        }),
-      });
-
+      if (!accountId) return;
       if (mediaType === "movie") {
-        toggleFavoriteMovie(mediaId);
+        await toggleFavoriteMovie(mediaId, accountId);
       } else if (mediaType === "tv") {
-        toggleFavoriteTVShow(mediaId);
-      }
-      if (!response.ok) {
-        console.error("Failed to update favorite:", response.statusText);
+        await toggleFavoriteTVShow(mediaId, accountId);
       }
     } catch (error) {
-      console.error("An error occurred while updating favorite:", error);
+      console.error("Failed to toggle favorite:", error);
     }
   };
 
