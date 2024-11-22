@@ -4,7 +4,6 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Searchbar } from "./Search";
-import Submenu from "./Submenu";
 import { useEffect, useState } from "react";
 import { useFavoriteStore } from "@/providers/favorite-store-provider";
 import { useModal } from "@/hooks/useModal";
@@ -12,6 +11,8 @@ import { useModal } from "@/hooks/useModal";
 import Search from "/icons/search.svg";
 import MenuBar from "/icons/menu2.svg";
 import Overlay from "./Overlay";
+import NavDropdownMenu from "./NavDropdownMenu";
+import { navbarLinks } from "@/constants";
 
 const Navbar = () => {
   const router = useRouter();
@@ -36,6 +37,7 @@ const Navbar = () => {
   const handleMenuOpen = (isOpen: boolean) => {
     setIsMenuOpen(isOpen);
   };
+
   const handleLogin = async () => {
     try {
       const response = await fetch("/api/getRequestToken");
@@ -62,9 +64,10 @@ const Navbar = () => {
               DirectCine
             </Link>
           </li>
-          <Submenu />
+          {navbarLinks.map((item) => (
+            <NavDropdownMenu key={item.label} {...item} />
+          ))}
         </ul>
-
         <div className="flex items-center space-x-4">
           <Modal open={isOpen} onClose={closeModal}>
             <div className="flex items-center justify-center bg-red-600">
