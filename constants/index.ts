@@ -24,6 +24,14 @@ export const navbarLinks = [
     label: "유명인",
     submenu: [{ label: "인기인물", route: "/person" }],
   },
+  {
+    imgUrl: "/icons/favorite-like.svg",
+    label: "좋아요",
+    submenu: [
+      { label: "영화", route: "/favorite/movie" },
+      { label: "Tv", route: "/favorite/tv" },
+    ],
+  },
 ];
 
 export const options = {
