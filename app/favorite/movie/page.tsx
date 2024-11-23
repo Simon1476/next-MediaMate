@@ -1,4 +1,3 @@
-import { getFavoriteMovies } from "@/lib/tmdb";
 import FavoriteMediaList from "@/components/FavoriteMediaList";
 
 const FavoriteMovie = async () => {
