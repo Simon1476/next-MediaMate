@@ -3,7 +3,13 @@ import { TMDBMovie } from "@/types/tmdb";
 import Image from "next/image";
 import Link from "next/link";
 
-const MovieCard = ({ movie }: { movie: TMDBMovie }) => {
+const MovieCard = ({
+  movie,
+  priority,
+}: {
+  movie: TMDBMovie;
+  priority: boolean;
+}) => {
   const formattedVoteAverage =
     parseFloat(movie.vote_average.toFixed(1)) === Math.floor(movie.vote_average)
       ? Math.floor(movie.vote_average)
@@ -21,7 +27,7 @@ const MovieCard = ({ movie }: { movie: TMDBMovie }) => {
             alt={movie.title}
             width={300}
             height={150}
-            className="w-full"
+            priority={priority}
           />
         </Link>
       </div>
