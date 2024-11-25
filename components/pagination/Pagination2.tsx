@@ -9,8 +9,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-
+} from "@ui";
 type Props = {
   totalPages: number;
   mediaType: string;
