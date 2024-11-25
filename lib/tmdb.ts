@@ -180,25 +180,3 @@ export async function rateMovie(movieId: number, rate: number) {
     throw new Error("Error Rate movie");
   }
 }
-
-export async function getFavoriteMovies(
-  currentPage: number = 1
-): Promise<TMDBMovieResponse> {
-  const cookieStore = cookies();
-  const accountId = cookieStore.get("accound_id")?.value;
-  try {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=ko-KR&page=${currentPage}&sort_by=created_at.asc`,
-      options
-    );
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch favorite movies");
-    }
-
-    return await res.json();
-  } catch (error) {
-    console.error("Error fetching favorite movies:", error);
-    throw new Error("Error fetching favorite movies");
-  }
-}
