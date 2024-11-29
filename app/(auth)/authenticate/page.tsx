@@ -22,6 +22,7 @@ const Authenticate = () => {
           body: JSON.stringify({ token }),
           credentials: "include",
         });
+        await fetch("/api/getAccountId");
         const data = await response.json();
         await fetchUserInfo();
         router.push("/");
