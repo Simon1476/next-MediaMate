@@ -1,10 +1,11 @@
 import { type NextRequest } from "next/server";
 import { TMDBTVShow, TMDBTVShowResponse } from "@/types/tmdb";
 import { NextResponse } from "next/server";
+import { cookies } from "next/dist/client/components/headers";
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const accountId = searchParams.get("accountId");
+  const cookieStore = cookies();
+  const accountId = cookieStore.get("accound_Id")?.value;
 
   let page = 1;
   let totalPages = 1;
