@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -13,17 +12,16 @@ import {
 type Props = {
   totalPages: number;
   mediaType: string;
+  currentPage: number;
+  onPageChange: (page: number) => void;
 };
 
-const Pagination2 = ({ totalPages, mediaType }: Props) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    // Here you would typically fetch data for the new page
-    console.log(`Fetching data for page ${page}`);
-  };
-
+const Pagination2 = ({
+  totalPages,
+  mediaType,
+  currentPage,
+  onPageChange,
+}: Props) => {
   const renderPageNumbers = () => {
     const pageNumbers = [];
     const maxVisiblePages = 5;
@@ -34,7 +32,7 @@ const Pagination2 = ({ totalPages, mediaType }: Props) => {
           <PaginationItem key={i}>
             <PaginationLink
               href="#"
-              onClick={() => handlePageChange(i)}
+              onClick={() => onPageChange(i)}
               isActive={currentPage === i}
             >
               {i}
@@ -48,7 +46,7 @@ const Pagination2 = ({ totalPages, mediaType }: Props) => {
         <PaginationItem key={1}>
           <PaginationLink
             href="#"
-            onClick={() => handlePageChange(1)}
+            onClick={() => onPageChange(1)}
             isActive={currentPage === 1}
           >
             1
@@ -75,7 +73,7 @@ const Pagination2 = ({ totalPages, mediaType }: Props) => {
           <PaginationItem key={i}>
             <PaginationLink
               href="#"
-              onClick={() => handlePageChange(i)}
+              onClick={() => onPageChange(i)}
               isActive={currentPage === i}
             >
               {i}
@@ -98,7 +96,7 @@ const Pagination2 = ({ totalPages, mediaType }: Props) => {
         <PaginationItem key={totalPages}>
           <PaginationLink
             href="#"
-            onClick={() => handlePageChange(totalPages)}
+            onClick={() => onPageChange(totalPages)}
             isActive={currentPage === totalPages}
           >
             {totalPages}
@@ -120,7 +118,7 @@ const Pagination2 = ({ totalPages, mediaType }: Props) => {
                 1,
                 currentPage - 1
               )}`}
-              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              onClick={() => onPageChange(Math.max(1, currentPage - 1))}
             />
           </PaginationItem>
           {renderPageNumbers()}
@@ -131,7 +129,7 @@ const Pagination2 = ({ totalPages, mediaType }: Props) => {
                 currentPage + 1
               )}`}
               onClick={() =>
-                handlePageChange(Math.min(totalPages, currentPage + 1))
+                onPageChange(Math.min(totalPages, currentPage + 1))
               }
             />
           </PaginationItem>

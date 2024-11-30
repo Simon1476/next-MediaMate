@@ -24,12 +24,12 @@ type FavoriteMediaListProps = {
 
 const FavoriteMediaList = ({ mediaType }: FavoriteMediaListProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
   const { favoriteMovies, favoriteTVShows } = useFavoriteStore(
     (state) => state
   );
   const favoriteItems =
     mediaType === "movie" ? favoriteMovies : favoriteTVShows;
-  let currentPage = 1;
   const itemsPerPage = 10;
   const totalPages = Math.ceil(favoriteItems.length / itemsPerPage);
 
@@ -91,7 +91,12 @@ const FavoriteMediaList = ({ mediaType }: FavoriteMediaListProps) => {
             </div>
           );
         })}
-      <Pagination2 totalPages={totalPages} mediaType={mediaType} />
+      <Pagination2
+        totalPages={totalPages}
+        mediaType={mediaType}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };
