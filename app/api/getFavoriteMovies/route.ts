@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   try {
     do {
       const response = await fetch(
-        `https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=ko-KR`,
+        `https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=ko-KR&page=${page}&sort_by=created_at.asc`,
         {
           method: "GET",
           headers: {
@@ -33,7 +33,6 @@ export async function GET(request: NextRequest) {
       allMovies = allMovies.concat(data.results);
       totalPages = data.total_pages;
       page++;
-
       await new Promise((resolve) => setTimeout(resolve, 500));
     } while (page <= totalPages);
     return NextResponse.json(allMovies);
