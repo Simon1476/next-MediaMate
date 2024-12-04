@@ -38,7 +38,7 @@ const TvShowList = ({
           ))}
         </div>
       )}
-      <Pagination2 totalPages={totalPage} mediaType="tv" />
+      <Pagination totalPage={totalPage} currentPage={currentPage} />
     </>
   );
 };
