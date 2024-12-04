@@ -1,5 +1,3 @@
-// types/tmdb.ts
-
 export type TMDBMovie = {
   adult: boolean;
   backdrop_path: string;
@@ -119,6 +117,15 @@ export type TVShowDetail = {
   poster_path: string;
   vote_average: number;
   vote_count: number;
+};
+
+export type TMDBTVShowDetail = {
+  id: number;
+  name: string;
+  poster_path: string | null;
+  first_air_date: string;
+  overview: string;
+  favorite: boolean;
 };
 
 export type KnownForMedia = {
