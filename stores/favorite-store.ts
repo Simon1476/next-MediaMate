@@ -1,4 +1,9 @@
-import { TMDBMovie, TMDBTVShow } from "@/types/tmdb";
+import {
+  TMDBMovie,
+  TMDBMovieDetail,
+  TMDBTVShow,
+  TMDBTVShowDetail,
+} from "@/types/tmdb";
 import { createStore } from "zustand/vanilla";
 
 export type FavoriteState = {
@@ -23,8 +28,8 @@ export type FavoriteState = {
 export type FavoriteActions = {
   fetchFavoriteMovies: (accountId: string) => Promise<void>;
   fetchFavoriteTVShows: (accountId: string) => Promise<void>;
-  toggleFavoriteMovie: (movieId: number, accountId: string) => Promise<void>;
-  toggleFavoriteTVShow: (tvShowId: number, accountId: string) => Promise<void>;
+  toggleFavoriteMovie: (movieId: number) => Promise<void>;
+  toggleFavoriteTVShow: (tvShowId: number) => Promise<void>;
 };
 
 export type FavoriteStore = FavoriteState & FavoriteActions;
@@ -42,7 +47,7 @@ export const createFavoriteStore = (
 
     fetchFavoriteMovies: async (accountId: string) => {
       if (!accountId) return;
-      const res = await fetch(`/api/getFavoriteMovies?accountId=${accountId}`);
+      const res = await fetch(`/api/getFavoriteMovies`);
       const data: TMDBMovie[] = await res.json();
       const favoriteMovies = data.map((movie) => ({
         id: movie.id,
@@ -52,12 +57,11 @@ export const createFavoriteStore = (
         favorite: true,
         overview: movie.overview,
       }));
-
       set((state) => ({ ...state, favoriteMovies }));
     },
     fetchFavoriteTVShows: async (accountId: string) => {
       if (!accountId) return;
-      const res = await fetch(`/api/getFavoriteTVShows?accountId=${accountId}`);
+      const res = await fetch(`/api/getFavoriteTVShows`);
       const data: TMDBTVShow[] = await res.json();
 
       const favoriteTVShows = data.map((tvShow) => ({
@@ -71,7 +75,7 @@ export const createFavoriteStore = (
       set((state) => ({ ...state, favoriteTVShows }));
     },
 
-    toggleFavoriteMovie: async (movieId: number, accountId: string) => {
+    toggleFavoriteMovie: async (movieId: number) => {
       const state = get();
       const existingMovieIndex = state.favoriteMovies.findIndex(
         (movie) => movie.id === movieId
@@ -87,7 +91,6 @@ export const createFavoriteStore = (
           body: JSON.stringify({
             mediaId: movieId,
             mediaType: "movie",
-            accountId,
             favorite: isFavorite,
           }),
         });
@@ -96,19 +99,21 @@ export const createFavoriteStore = (
           throw new Error("Failed to toggle favorite");
         }
 
+        let movieData: TMDBMovieDetail;
+        if (isFavorite) {
+          const movieDetailResponse = await fetch(
+            `/api/movieDetail?movieId=${movieId}`
+          );
+          if (!movieDetailResponse.ok) {
+            throw new Error("Failed to fetch movie details");
+          }
+          movieData = await movieDetailResponse.json();
+          movieData.favorite = true;
+        }
+
         set((state) => {
           const updatedFavoriteMovies = isFavorite
-            ? [
-                ...state.favoriteMovies,
-                {
-                  id: movieId,
-                  title: "",
-                  poster_path: "",
-                  release_date: "",
-                  favorite: true,
-                  overview: "",
-                },
-              ]
+            ? [...state.favoriteMovies, movieData]
             : state.favoriteMovies.filter((movie) => movie.id !== movieId);
 
           return { ...state, favoriteMovies: updatedFavoriteMovies };
@@ -118,7 +123,7 @@ export const createFavoriteStore = (
       }
     },
 
-    toggleFavoriteTVShow: async (tvShowId: number, accountId: string) => {
+    toggleFavoriteTVShow: async (tvShowId: number) => {
       const state = get();
       const existingTVShowIndex = state.favoriteTVShows.findIndex(
         (tvShow) => tvShow.id === tvShowId
@@ -134,7 +139,6 @@ export const createFavoriteStore = (
           body: JSON.stringify({
             mediaId: tvShowId,
             mediaType: "tv",
-            accountId,
             favorite: isFavorite,
           }),
         });
@@ -142,21 +146,21 @@ export const createFavoriteStore = (
         if (!response.ok) {
           throw new Error("Failed to toggle favorite");
         }
-
+        let tvShowData: TMDBTVShowDetail;
+        if (isFavorite) {
+          const tvShowDetailResponse = await fetch(
+            `/api/tvShowDetail?tvShowId=${tvShowId}`
+          );
+          if (!tvShowDetailResponse.ok) {
+            throw new Error("Failed to fetch TV show details");
+          }
+          tvShowData = await tvShowDetailResponse.json();
+          tvShowData.favorite = true;
+        }
         set((state) => {
           const updatedFavoriteTVShows = isFavorite
-            ? [
-                ...state.favoriteTVShows,
-                {
-                  id: tvShowId,
-                  name: "",
-                  poster_path: "",
-                  first_air_date: "",
-                  overview: "",
-                  favorite: true,
-                },
-              ]
-            : state.favoriteTVShows.filter((tvShow) => tvShow.id !== tvShowId);
+            ? [...state.favoriteTVShows, tvShowData] // 즐겨찾기 추가
+            : state.favoriteTVShows.filter((tvShow) => tvShow.id !== tvShowId); // 즐겨찾기 제거
 
           return { ...state, favoriteTVShows: updatedFavoriteTVShows };
         });
