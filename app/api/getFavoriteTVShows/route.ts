@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   try {
     do {
       const response = await fetch(
-        `https://api.themoviedb.org/3/account/${accountId}/favorite/tv?language=ko-KR`,
+        `https://api.themoviedb.org/3/account/${accountId}/favorite/tv?language=ko-KR&page=${page}&sort_by=created_at.asc`,
         {
           method: "GET",
           headers: {
