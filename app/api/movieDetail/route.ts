@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}`,
+      `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
       {
         method: "GET",
         headers: {
