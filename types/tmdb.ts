@@ -42,6 +42,15 @@ export type MovieDetail = {
   backdrop_path: string;
 };
 
+export type TMDBMovieDetail = {
+  id: number;
+  title: string;
+  poster_path: string;
+  release_date: string;
+  overview: string;
+  favorite: boolean;
+};
+
 export type CastMember = {
   id: string;
   adult: boolean;
