@@ -1,10 +1,13 @@
+import { cookies } from "next/headers";
+
 export async function POST(request: Request) {
+  const cookieStore = cookies();
+  const accountId = cookieStore.get("accound_Id")?.value;
   try {
     const {
       mediaType: media_type,
       mediaId: media_id,
       favorite,
-      accountId,
     } = await request.json();
 
     const options = {
