@@ -36,9 +36,9 @@ const LikeButton = ({ mediaId, mediaType }: props) => {
     try {
       if (!accountId) return;
       if (mediaType === "movie") {
-        await toggleFavoriteMovie(mediaId, accountId);
+        await toggleFavoriteMovie(mediaId);
       } else if (mediaType === "tv") {
-        await toggleFavoriteTVShow(mediaId, accountId);
+        await toggleFavoriteTVShow(mediaId);
       }
     } catch (error) {
       console.error("Failed to toggle favorite:", error);
