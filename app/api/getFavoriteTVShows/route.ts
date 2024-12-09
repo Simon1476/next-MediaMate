@@ -5,7 +5,7 @@ import { cookies } from "next/dist/client/components/headers";
 
 export async function GET(request: NextRequest) {
   const cookieStore = cookies();
-  const accountId = cookieStore.get("accound_Id")?.value;
+  const accountId = cookieStore.get("account_id")?.value;
 
   let page = 1;
   let totalPages = 1;
