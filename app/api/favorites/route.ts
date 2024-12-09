@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   const cookieStore = cookies();
-  const accountId = cookieStore.get("accound_Id")?.value;
+  const accountId = cookieStore.get("account_id")?.value;
   try {
     const {
       mediaType: media_type,
