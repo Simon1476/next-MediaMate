@@ -26,8 +26,8 @@ export type FavoriteState = {
 };
 
 export type FavoriteActions = {
-  fetchFavoriteMovies: (accountId: string) => Promise<void>;
-  fetchFavoriteTVShows: (accountId: string) => Promise<void>;
+  fetchFavoriteMovies: () => Promise<void>;
+  fetchFavoriteTVShows: () => Promise<void>;
   toggleFavoriteMovie: (movieId: number) => Promise<void>;
   toggleFavoriteTVShow: (tvShowId: number) => Promise<void>;
 };
@@ -45,8 +45,7 @@ export const createFavoriteStore = (
   return createStore<FavoriteStore>()((set, get) => ({
     ...initState,
 
-    fetchFavoriteMovies: async (accountId: string) => {
-      if (!accountId) return;
+    fetchFavoriteMovies: async () => {
       const res = await fetch(`/api/getFavoriteMovies`);
       const data: TMDBMovie[] = await res.json();
       const favoriteMovies = data.map((movie) => ({
@@ -59,8 +58,7 @@ export const createFavoriteStore = (
       }));
       set((state) => ({ ...state, favoriteMovies }));
     },
-    fetchFavoriteTVShows: async (accountId: string) => {
-      if (!accountId) return;
+    fetchFavoriteTVShows: async () => {
       const res = await fetch(`/api/getFavoriteTVShows`);
       const data: TMDBTVShow[] = await res.json();
 
