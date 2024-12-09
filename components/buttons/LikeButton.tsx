@@ -1,6 +1,4 @@
 "use client";
-
-import { useAuth } from "@/context/AuthContext";
 import { useFavoriteStore } from "@/providers/favorite-store-provider";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -10,7 +8,6 @@ type props = {
   mediaType: "movie" | "tv";
 };
 const LikeButton = ({ mediaId, mediaType }: props) => {
-  const { accountId } = useAuth();
   const {
     favoriteMovies,
     favoriteTVShows,
@@ -34,7 +31,6 @@ const LikeButton = ({ mediaId, mediaType }: props) => {
 
   const handleFavorite = async () => {
     try {
-      if (!accountId) return;
       if (mediaType === "movie") {
         await toggleFavoriteMovie(mediaId);
       } else if (mediaType === "tv") {
