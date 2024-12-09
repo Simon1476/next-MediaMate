@@ -16,23 +16,18 @@ import { navbarLinks } from "@/constants";
 
 const Navbar = () => {
   const router = useRouter();
-  const { username, signOut, accountId } = useAuth();
-  const { fetchFavoriteMovies, fetchFavoriteTVShows } = useFavoriteStore(
-    (state) => state
-  );
-
+  const { username, signOut } = useAuth();
+  const { fetchFavoriteMovies, fetchFavoriteTVShows, favoriteMovies } =
+    useFavoriteStore((state) => state);
   const { Modal, isOpen, openModal, closeModal } = useModal();
   const [isMenuOpen, setIsMenuOpen] = useState(false); // 상태 변수 추가
-
   useEffect(() => {
     const fetchData = async () => {
-      if (accountId) {
-        await fetchFavoriteMovies(accountId);
-        await fetchFavoriteTVShows(accountId);
-      }
+      await fetchFavoriteMovies();
+      await fetchFavoriteTVShows();
     };
-    fetchData(); // 비동기 함수 호출
-  }, [accountId, fetchFavoriteMovies, fetchFavoriteTVShows]);
+    fetchData();
+  }, [fetchFavoriteMovies, fetchFavoriteTVShows]);
 
   const handleMenuOpen = (isOpen: boolean) => {
     setIsMenuOpen(isOpen);
