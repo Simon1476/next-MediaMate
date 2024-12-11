@@ -31,7 +31,11 @@ const Authenticate = () => {
     fetchSessionId();
   }, [searchParams, router, fetchUserInfo]);
 
-  return <div>Session Id 생성 성공</div>;
+  return (
+    <div className="min-h-screen flex justify-center items-center bg-[#0f1114]">
+      <p className="text-white text-3xl">로그인 시도 중...</p>
+    </div>
+  );
 };
 
 const AuthenticatePage = () => {

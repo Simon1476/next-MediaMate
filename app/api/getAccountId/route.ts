@@ -5,6 +5,11 @@ import { NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   const cookieStore = cookies();
   const sessionId = cookieStore.get("session_id");
+  if (!sessionId)
+    return NextResponse.json(
+      { message: "Session ID doesn't exists" },
+      { status: 200 }
+    );
   try {
     const accountResponse = await fetch(
       `https://api.themoviedb.org/3/account?api_key=${process.env.TMDB_API_KEY}&session_id=${sessionId?.value}`
@@ -19,7 +24,7 @@ export async function GET(request: NextRequest) {
     const accountData = await accountResponse.json();
     const res = NextResponse.json(accountData);
     console.log("accountData", accountData);
-    res.cookies.set("accound_Id", accountData.id, {
+    res.cookies.set("account_id", accountData.id, {
       httpOnly: true,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",

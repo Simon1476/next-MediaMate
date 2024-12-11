@@ -19,14 +19,12 @@ export async function GET(request: Request) {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    } else {
-      // Error 인스턴스가 아닐 경우, 기본 메시지를 사용
-      return NextResponse.json(
-        { error: "An unknown error occurred" },
-        { status: 500 }
-      );
-    }
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error ? error.message : "An unknown error occurred",
+      },
+      { status: 500 }
+    );
   }
 }

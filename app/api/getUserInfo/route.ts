@@ -4,7 +4,14 @@ import { cookies } from "next/headers";
 export async function GET(request: Request) {
   const cookieStore = cookies();
   const sessionId = cookieStore.get("session_id")?.value;
-  const accountId = cookieStore.get("accound_Id")?.value;
+  const accountId = cookieStore.get("account_id")?.value;
+
+  if (!sessionId || !accountId) {
+    return NextResponse.json(
+      { message: "Session ID or Account ID doesn't exists" },
+      { status: 200 }
+    );
+  }
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/account/${accountId}?session_id=${sessionId}`,
