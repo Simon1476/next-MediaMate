@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "./../context/AuthContext";
 import Navbar from "@/components/navbar/Navbar";
 import { FavoriteStoreProvider } from "@/providers/favorite-store-provider";
+import { AuthStoreProvider } from "@/providers/auth-store-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AuthProvider>
+      <AuthStoreProvider>
         <FavoriteStoreProvider>
           <body className={`${inter.className} relative`}>
             <Navbar />
@@ -27,7 +27,7 @@ export default function RootLayout({
             <div id="global-modal"></div>
           </body>
         </FavoriteStoreProvider>
-      </AuthProvider>
+      </AuthStoreProvider>
     </html>
   );
 }

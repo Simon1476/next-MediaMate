@@ -1,7 +1,6 @@
 import LikeButton from "@/components/buttons/LikeButton";
 import RateButton from "@/components/buttons/RateButton";
 import GenresList from "@/components/genre/GenresList";
-import { useAuth } from "@/context/AuthContext";
 import { getSessionId } from "@/lib/cookies";
 import { getMovieCredits, getMovieDetail } from "@/lib/tmdb";
 import { formatRuntime } from "@/lib/utils";

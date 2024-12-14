@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Close from "/icons/close.svg";
 import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
+import { useAuthStore } from "@/providers/auth-store-provider";
 
 type Props = {
   isMenuOpen: boolean;
@@ -11,7 +11,7 @@ type Props = {
 const Overlay = ({ isMenuOpen, onMenuOpen }: Props) => {
   const [activeSection, setActiveSection] = useState<string>("movie");
 
-  const { signOut } = useAuth();
+  const { signOut } = useAuthStore((state) => state);
   const handleSectionClick = (section: string) => {
     if (activeSection !== section) {
       setActiveSection(section);

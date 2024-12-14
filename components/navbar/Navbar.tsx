@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Searchbar } from "./Search";
@@ -13,12 +12,14 @@ import MenuBar from "/icons/menu2.svg";
 import Overlay from "./Overlay";
 import NavDropdownMenu from "./NavDropdownMenu";
 import { navbarLinks } from "@/constants";
+import { useAuthStore } from "@/providers/auth-store-provider";
 
 const Navbar = () => {
   const router = useRouter();
-  const { username, signOut } = useAuth();
-  const { fetchFavoriteMovies, fetchFavoriteTVShows, favoriteMovies } =
-    useFavoriteStore((state) => state);
+  const { username, signOut } = useAuthStore((state) => state);
+  const { fetchFavoriteMovies, fetchFavoriteTVShows } = useFavoriteStore(
+    (state) => state
+  );
   const { Modal, isOpen, openModal, closeModal } = useModal();
   const [isMenuOpen, setIsMenuOpen] = useState(false); // 상태 변수 추가
   useEffect(() => {
@@ -39,7 +40,6 @@ const Navbar = () => {
       if (!response.ok) throw new Error("Failed to fetch request token");
       const data = await response.json();
       const requestToken = data.request_token;
-
       const redirectUrl = `${process.env.NEXT_PUBLIC_REDIRECT_URL}?token=${requestToken}`;
 
       router.push(

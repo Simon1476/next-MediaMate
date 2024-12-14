@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
+import { useAuthStore } from "@/providers/auth-store-provider";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { Suspense } from "react";
@@ -8,7 +8,7 @@ import { Suspense } from "react";
 const Authenticate = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { fetchUserInfo } = useAuth();
+  const { fetchUserInfo } = useAuthStore((state) => state);
   useEffect(() => {
     const fetchSessionId = async () => {
       const token = searchParams.get("token");
